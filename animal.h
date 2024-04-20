@@ -98,17 +98,77 @@ void BinaryTreeNode::userChoice(NodePtr &nodePtr, NodePtr &currentPtr) {
     }
 }
 
+// Function guesses animal at the leaf node
+bool BinaryTreeNode::guessAnimal(NodePtr nodePtr) {
+
+    // if user is animal at this leaf node 
+    cout << "Is the animal " << nodePtr->guessedAnimalorQuestion << "?" << std::endl;
+    decideAnimal = userAnswer();
+
+    //wrong guess
+    if(decideAnimal == 0) {
+        return false;
+    }
+    // correct guess
+    else {
+        if (decideAnimal == 1) {
+            std::cout << "I guessed the animal correctly!" << std::endl;
+            return true;
+        }
+        else {
+            std::cout << "Invalid input. Please enter 'yes' or 'no'." << std::endl;
+            guessAnimal(nodePtr);
+            return -1;
+        }
+    }
+
+}
+ // Function to make a new question
+bool BinaryTreeNode::makeNewQuestion(NodePtr& nodePtr) {
+
+    // get the animal from the user 
+    std::cout << "What is the animal you were pretending to be?" << std::endl;
+    getline(cin, answer);
+    cin.clear();
+
+    // if user input is not empty
+    while(answer == "") {
+        std::cout << "Invalid input. Please enter the animal you were pretending to be." << std::endl;
+        getline(cin, answer);
+        cin.clear();
+    }
+     // GET FROM A "YES" QUESTION FROM THE ANIMAL ABOVE
+    std::cout << "I should've known that! Help me learn  " << answer << std::endl;
+    std::cout << "Please enter a question that is true for " << answer << " and false for " << nodePtr->guessedAnimalorQuestion << std::endl;
 
 
+    getline(cin, question);
+    cin.clear();
 
+    // if user input is not empty
+    while(question == "") {
+        std::cout << "Invalid input. Please enter a question that is true for " << answer << " and false for " << nodePtr->guessedAnimalorQuestion << std::endl;
+        getline(cin, question);
+        cin.clear();
+    }
 
+    TreeNode* left = new TreeNode;
 
+    left->guessedAnimalorQuestion = answer;
+    left->left = NULL;
+    left->right = NULL;
 
+    TreeNode* right = new TreeNode;
+    right->guessedAnimalorQuestion = nodePtr->guessedAnimalorQuestion;
+    right->left = NULL;
+    right->right = NULL;
 
+    nodePtr->guessedAnimalorQuestion = question;
+    nodePtr->left = left;
+    nodePtr->right = right;
 
+    return true;
 
-
-
-
+}
 
 #endif 
