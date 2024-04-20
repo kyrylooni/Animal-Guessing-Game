@@ -27,8 +27,8 @@ class BinaryTreeNode
     bool makeNewQuestion(NodePtr& nodePtr); // function to make a new question
     bool newRound();
     void readTextFile(NodePtr& nodePtr, std::ifstream& inFile); // function to read the text file
-    int  userAnswer();
-    void userChoice(NodePtr& nodePtr, NodePtr& currentPtr); 
+    int  userAnswer(); // function to get the user's answer "yes" or "no"
+    void userChoice(NodePtr& nodePtr, NodePtr& currentPtr); /// function to navigate the tree based on the user's input
     void gameInstructions(); // function to display the game instructions
     void writeTextFile(NodePtr nodePtr, std::ofstream& outFile); // function to write the text file
 };
@@ -68,7 +68,37 @@ void BinaryTreeNode::readTextFile(NodePtr& nodePtr, std::ifstream& inFile) {
 }
 
 // User deciedes how to navigate the tree left or right based on the user's input "yes" or "no" accordingly
-void BinaryTreeNode::userChoice(TreeNode&)
+void BinaryTreeNode::userChoice(NodePtr &nodePtr, NodePtr &currentPtr) {
+
+    currentPtr = nodePtr;
+
+    // if there is no left or right node
+    if(currentPtr->left == NULL && currentPtr->right == NULL)
+        return;
+    
+    else {
+        // ask the question and get the user's input
+        std::cout << currentPtr->guessedAnimalorQuestion << std::endl;
+        usersChoice = userAnswer();
+    
+        // if the user's input is "no" / right node
+        if(usersChoice == 0) {
+        userChoice(nodePtr->right, currentPtr);
+    }
+    // if the user's input is "yes" / left node
+   else {
+        if (usersChoice == 1) {
+            userChoice(nodePtr->left, currentPtr);
+        }
+        else {
+            std::cout << "Invalid input. Please enter 'yes' or 'no'." << std::endl;
+            userChoice(nodePtr, currentPtr);
+        }
+        }
+    }
+}
+
+
 
 
 
