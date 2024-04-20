@@ -44,6 +44,29 @@ void BinaryTreeNode::gameInstructions() {
 }
 
 
+// Function to read the text file
+void BinaryTreeNode::readTextFile(NodePtr& nodePtr, std::ifstream& inFile) {
+
+    std::string input;
+
+    getline(inFile, input);
+
+    // If the input is not equal to "*" and the file is not at the end
+
+    if(input != "*" && !inFile.eof()) {
+        // Create a new node and store the input in the node and read the left and right nodes        
+        nodePtr = new TreeNode;
+        nodePtr->guessedAnimalorQuestion = input;
+        readTextFile(nodePtr->left, inFile);
+        readTextFile(nodePtr->right, inFile);
+    }
+
+    else {
+        nodePtr = NULL;
+    }
+
+}
+
 
 
 
