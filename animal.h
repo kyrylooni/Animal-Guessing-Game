@@ -7,7 +7,7 @@
 class BinaryTreeNode
 {
     public:
-    struct TreeNode // struct of the nodefor the binary tree
+    struct TreeNode // struct of the node for the binary tree
     {
         std::string guessedAnimalorQuestion; // string for the animal or question
         TreeNode* left; // left node -> yes
@@ -28,7 +28,7 @@ class BinaryTreeNode
     bool newRound();
     void readTextFile(NodePtr& nodePtr, std::ifstream& inFile); // function to read the text file
     int  userAnswer();
-    void userChoice(TreeNode& nodePtr, TreeNode& currentPtr); 
+    void userChoice(NodePtr& nodePtr, NodePtr& currentPtr); 
     void gameInstructions(); // function to display the game instructions
     void writeTextFile(NodePtr nodePtr, std::ofstream& outFile); // function to write the text file
 };
@@ -44,7 +44,7 @@ void BinaryTreeNode::gameInstructions() {
 }
 
 
-// Function to read the text file
+// Function to read the tree from the text file
 void BinaryTreeNode::readTextFile(NodePtr& nodePtr, std::ifstream& inFile) {
 
     std::string input;
@@ -66,6 +66,9 @@ void BinaryTreeNode::readTextFile(NodePtr& nodePtr, std::ifstream& inFile) {
     }
 
 }
+
+// User deciedes how to navigate the tree left or right based on the user's input "yes" or "no" accordingly
+void BinaryTreeNode::userChoice(TreeNode&)
 
 
 
