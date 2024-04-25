@@ -144,6 +144,34 @@ void BinaryTreeNode::makeNewQuestion(NodePtr& nodePtr) {
 
 }
 
+bool BinaryTreeNode::newRound() {
+
+    cout << endl;
+    cout << "Great round!" << endl; 
+    cout << endl;
+    cout << "Would you like to play again (yes/no)" << endl; 
+    cin >> input;
+    cin.ignore();
+
+
+    // if user wants to play again  
+    if (input == "yes") {
+        return true;
+    }
+    // user does not want to play again 
+    else if (input == "no") 
+    {
+        return false;
+    }
+
+    // validate
+    else{
+        cout << "Invalid answer. " << endl;
+        newRound();
+        return -1;
+    }
+}
+
 void BinaryTreeNode::writeTextFile(NodePtr nodePtr, ofstream& outFile) {
 
     // ptr is null enter * when null
