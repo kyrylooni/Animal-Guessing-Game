@@ -143,3 +143,20 @@ void BinaryTreeNode::makeNewQuestion(NodePtr& nodePtr) {
     nodePtr->right = right;
 
 }
+
+void BinaryTreeNode::writeTextFile(NodePtr nodePtr, ofstream& outFile) {
+
+    // ptr is null enter * when null
+    if (nodePtr == NULL) {
+        outFile << "*'" << endl;
+    }    
+    else {
+        outFile << nodePtr->guessedAnimalorQuestion << endl;
+        writeTextFile(nodePtr->left, outFile);
+        writeTextFile(nodePtr->right, outFile);
+    }
+        
+
+
+
+}
