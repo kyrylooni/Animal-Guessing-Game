@@ -49,7 +49,7 @@ void BinaryTreeNode::userChoice(NodePtr &nodePtr, NodePtr &currentPtr) {
         return; // This is a leaf node, no further action needed
     }
 
-    std::cout << currentPtr->guessedAnimalorQuestion << std::endl; // Ask question
+    cout << currentPtr->guessedAnimalorQuestion << endl; // Ask question
     usersChoice = userAnswer(); // Get user answer
 
     // Navigate the tree based on user input
@@ -62,7 +62,7 @@ void BinaryTreeNode::userChoice(NodePtr &nodePtr, NodePtr &currentPtr) {
             userChoice(currentPtr->right, currentPtr); // Recur right
         }
     } else {
-        std::cout << "Invalid input. Please enter 'yes' or 'no'." << std::endl;
+        cout << "Invalid input. Please enter 'yes' or 'no'." << endl;
         userChoice(nodePtr, currentPtr); // Repeat with same node
     }
 }
