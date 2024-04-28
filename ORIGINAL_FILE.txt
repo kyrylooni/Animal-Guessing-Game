@@ -1,0 +1,15 @@
+Is it a mammal?
+Does it fly?
+bat
+*
+*
+dog
+*
+*
+Is it aquatic?
+fish
+*
+*
+bird
+*
+*
