@@ -17,8 +17,8 @@ class BinaryTreeNode
     typedef TreeNode* NodePtr; // typedef for the node pointer (allias for the node pointer)
 
     std::string input;
-    std::string answer;
-    std::string question;
+    std::string newAnswer;
+    std::string newQuestion;
     int decideAnimal;
     int usersChoice;
 

@@ -1,12 +1,11 @@
-#include "animal.h"
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <cstdlib>
 
+#include "animal.h"
+
 using namespace std;
-
-
 
 void BinaryTreeNode::gameInstructions() {
   
@@ -42,107 +41,102 @@ void BinaryTreeNode::readTextFile(NodePtr& nodePtr, std::ifstream& inFile) {
 
 }
 
-// User deciedes how to navigate the tree left or right based on the user's input "yes" or "no" accordingly
 void BinaryTreeNode::userChoice(NodePtr &nodePtr, NodePtr &currentPtr) {
-
     currentPtr = nodePtr;
 
-    // if there is no left or right node
-    if(currentPtr->left == NULL && currentPtr->right == NULL)
-        return;
-    
-    else {
-        // ask the question and get the user's input
-        std::cout << currentPtr->guessedAnimalorQuestion << std::endl;
-        usersChoice = userAnswer();
-    
-        // if the user's input is "no" / right node
-        if(usersChoice == 0) {
-        userChoice(nodePtr->right, currentPtr);
+    // Check for leaf node
+    if (currentPtr->left == NULL && currentPtr->right == NULL) {
+        return; // This is a leaf node, no further action needed
     }
-    // if the user's input is "yes" / left node
-   else {
-        if (usersChoice == 1) {
-            userChoice(nodePtr->left, currentPtr);
+
+    std::cout << currentPtr->guessedAnimalorQuestion << std::endl; // Ask question
+    usersChoice = userAnswer(); // Get user answer
+
+    // Navigate the tree based on user input
+    if (usersChoice == 1) { // "yes" - move to left
+        if (currentPtr->left != NULL) {
+            userChoice(currentPtr->left, currentPtr); // Recur left
         }
-        else {
-            std::cout << "Invalid input. Please enter 'yes' or 'no'." << std::endl;
-            userChoice(nodePtr, currentPtr);
+    } else if (usersChoice == 0) { // "no" - move to right
+        if (currentPtr->right != NULL) {
+            userChoice(currentPtr->right, currentPtr); // Recur right
         }
-        }
+    } else {
+        std::cout << "Invalid input. Please enter 'yes' or 'no'." << std::endl;
+        userChoice(nodePtr, currentPtr); // Repeat with same node
     }
 }
+
+
+
 
 // Function guesses animal at the leaf node
 bool BinaryTreeNode::guessAnimal(NodePtr nodePtr) {
-
-    // if user is animal at this leaf node 
-    cout << "Is the animal " << nodePtr->guessedAnimalorQuestion << "?" << std::endl;
+    cout << "Are you pretending to be a(n) " << nodePtr->guessedAnimalorQuestion << "?" << endl;
     decideAnimal = userAnswer();
 
-    //wrong guess
-    if(decideAnimal == 0) {
+    if (decideAnimal == 0) {
         return false;
-    }
-    // correct guess
+    } 
     else {
         if (decideAnimal == 1) {
-            std::cout << "I guessed the animal correctly!" << std::endl;
             return true;
         }
         else {
-            std::cout << "Invalid input. Please enter 'yes' or 'no'." << std::endl;
+            cout << "Invalid input. Please enter 'yes' or 'no'." << endl;
             guessAnimal(nodePtr);
             return -1;
-        }
+        }  
     }
-
 }
- // Function to make a new question
-void BinaryTreeNode::makeNewQuestion(NodePtr& nodePtr) {
 
-    // get the animal from the user 
-    std::cout << "What is the animal you were pretending to be?" << std::endl;
-    getline(cin, answer);
+ void BinaryTreeNode::makeNewQuestion(NodePtr& nodePtr) {
+    cout << "What animal were you thinking of?" << endl;
+
+    getline(cin, newAnswer);
     cin.clear();
 
-    // if user input is not empty
-    while(answer == "") {
-        std::cout << "Invalid input. Please enter the animal you were pretending to be." << std::endl;
-        getline(cin, answer);
-        cin.clear();
-    }
-     // GET FROM A "YES" QUESTION FROM THE ANIMAL ABOVE
-    std::cout << "I should've known that! Help me learn  " << answer << std::endl;
-    std::cout << "Please enter a question that is true for " << answer << " and false for " << nodePtr->guessedAnimalorQuestion << std::endl;
-
-
-    getline(cin, question);
-    cin.clear();
-
-    // if user input is not empty
-    while(question == "") {
-        std::cout << "Invalid input. Please enter a question that is true for " << answer << " and false for " << nodePtr->guessedAnimalorQuestion << std::endl;
-        getline(cin, question);
+    while (newAnswer == "")
+    {
+        cout << "Invalid input. Please enter the animal you were thinking of." << endl;
+        getline(cin, newAnswer);
         cin.clear();
     }
 
-    TreeNode* left = new TreeNode;
+    cout << "I shoul've known that. Help me learn more about a(n) " << newAnswer << endl;
+    cout << "Please enter a question that is true for a(n) " << newAnswer << " and false for a(n) " << nodePtr->guessedAnimalorQuestion << endl;
+    
+    getline(cin, newQuestion);
+    cin.clear();
 
-    left->guessedAnimalorQuestion = answer;
+    while (newQuestion == "")
+    {
+        cout << "Invalid input. Please enter a question that is true for a(n) " << newAnswer << " and false for a(n) " << nodePtr->guessedAnimalorQuestion << endl;
+        getline(cin, newAnswer);
+        cin.clear();
+    }
+    NodePtr left = new TreeNode;
+
+    left->guessedAnimalorQuestion = newAnswer;
     left->left = NULL;
     left->right = NULL;
 
-    TreeNode* right = new TreeNode;
+    NodePtr right = new TreeNode;
+
     right->guessedAnimalorQuestion = nodePtr->guessedAnimalorQuestion;
     right->left = NULL;
     right->right = NULL;
 
-    nodePtr->guessedAnimalorQuestion = question;
+    nodePtr->guessedAnimalorQuestion = newQuestion;
     nodePtr->left = left;
     nodePtr->right = right;
 
-}
+    return;
+    
+
+ }
+
+
 
 bool BinaryTreeNode::newRound() {
 
@@ -176,15 +170,31 @@ void BinaryTreeNode::writeTextFile(NodePtr nodePtr, ofstream& outFile) {
 
     // ptr is null enter * when null
     if (nodePtr == NULL) {
-        outFile << "*'" << endl;
+        outFile << "*" << endl;
     }    
     else {
         outFile << nodePtr->guessedAnimalorQuestion << endl;
         writeTextFile(nodePtr->left, outFile);
         writeTextFile(nodePtr->right, outFile);
+    }    
+}
+    // user answer function
+    // called when we need to get yes or no from the user. Trues are equal to 1 
+    // and falses are equal to 0
+    // -1 is returned if the user enters an invalid input
+int BinaryTreeNode::userAnswer() {
+    cin >> input;
+    cin.ignore();
+
+    if (input == "yes") {
+        return 1;
+    } 
+    else if (input == "no") {
+        return 0;
+    } 
+    else {
+        cout << "Invalid input. Please enter 'yes' or 'no'." << endl;
+        return -1;
     }
-        
-
-
 
 }

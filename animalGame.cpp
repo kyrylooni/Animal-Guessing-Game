@@ -17,7 +17,8 @@ int main() {
     int userAnswer; // user decides to start a new game or load the game
     ofstream outFile; // saving the game file
     string continueGame; // user decides to continue the game or not
-    string fileName = "animalGame.txt"; // file name for the game file
+    string newGameFile = "ORIGINAL_FILE.txt"; // original file for the game
+    string fileName; // file name for the game file
 
     cout << "       ***************************************************            " << endl;    
     cout << "       *               ANIMAL GUESSING GAME              *            " << endl;
@@ -45,11 +46,11 @@ int main() {
     
     // If user wants to start a new game
     if(userAnswer == 1) {
-        inFile.open(fileName);
+        inFile.open(newGameFile);
     
         //If program can't open the file
         if(!inFile.is_open()) {
-            cout << fileName << " could not be opened. Exiting...." << endl;
+            cout << newGameFile << " could not be opened. Exiting...." << endl;
             return 0;
         }
         else{
@@ -61,14 +62,14 @@ int main() {
     {
         cout << "What is the name of the file you would like to load for your saved game?" << endl;
         cout << "Loading the previous game..." << endl;
-        cin >> fileName;
+        cin >> continueGame;
         cin.ignore();
 
-        inFile.open(fileName);
+        inFile.open(continueGame);
 
         //If program can't open the file
         if(!inFile.is_open()) {
-            cout << fileName << " could not be opened. Exiting...." << endl;
+            cout << continueGame << " could not be opened. Exiting...." << endl;
             return 0;
         }
         else{
@@ -82,8 +83,57 @@ int main() {
     inFile.close();
     cin.ignore(10000, '\n');
 
+    // play game as long as the user wants to continue. After each round, 
+    // either win or lose, the user is asked if they want to continue
 
+do {
+    // if the user wants to play the game
+    cout << "NEW ROUND!" << endl;
+    cout << "LET'S PLAY THE GAME!" << endl;
+    cout << "**********************" << endl;
+
+    // start the game
+    newTree.userChoice(nodePtr, currentPtr);
+
+    if (newTree.guessAnimal(currentPtr)== true) {
+        cout << "I guessed the animal!" << endl;
+        cout << "I win!" << endl;
+    }
+    else {
+        cout << "I couldn't guess the animal!" << endl;
+        cout << "You win!" << endl;
+        newTree.makeNewQuestion(currentPtr);
+    }
+
+    // ask the user if they want to play again
+    playAgain = newTree.newRound();
+
+    } while(playAgain == true);
+
+    // if the user wants to save the game
+    cout << "I would like to save the game this game for future." << endl; 
+    cout << "What would you like to name the file?" << endl;
+    cout << "Please enter the file name followed by a '.txt': " << endl;
+    cin >> fileName;
+
+    // empty value for the file name
+    while(fileName == "") {
+        cout << "Invalid input. Please enter the file name followed by a '.txt': " << endl;
+        cin >> fileName;
+    }
+
+    // open the file to write the game
+    outFile.open(fileName);
+    newTree.writeTextFile(nodePtr, outFile);
+    outFile.close();
+    
+
+    cout << "Thank you for playing the game!" << endl;
+    cout << "Please come back and play again!" << endl;
+
+    return 0;
+}
+    
 
     
 
-}
