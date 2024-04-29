@@ -72,7 +72,7 @@ void BinaryTreeNode::userChoice(NodePtr &nodePtr, NodePtr &currentPtr) {
 
 // Function guesses animal at the leaf node
 bool BinaryTreeNode::guessAnimal(NodePtr nodePtr) {
-    cout << "Are you pretending to be a(n) " << nodePtr->guessedAnimalorQuestion << "?" << endl;
+    cout << "Are you thinking of a(n) " << nodePtr->guessedAnimalorQuestion << "?" << endl;
     decideAnimal = userAnswer();
 
     if (decideAnimal == 0) {
@@ -104,7 +104,7 @@ bool BinaryTreeNode::guessAnimal(NodePtr nodePtr) {
     }
 
     cout << "I shoul've known that. Help me learn more about a(n) " << newAnswer << endl;
-    cout << "Please enter a question that is true for a(n) " << newAnswer << " and false for a(n) " << nodePtr->guessedAnimalorQuestion << endl;
+    cout << "Please enter a question that is true for a(n) " << newAnswer << " and false for a(n) " << nodePtr->guessedAnimalorQuestion << "  and can be answered with either 'yes' or 'no' "  << endl;
     
     getline(cin, newQuestion);
     cin.clear();
