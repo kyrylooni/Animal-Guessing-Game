@@ -28,7 +28,7 @@ To get started with the Animal Guessing Game, follow these steps:
 ## Compilation 
 Compile the game using the following command in the terminal:
 
-- **g++ -o AnimalGame animalGame.cpp animal.cpp**
+- **make**
 
 
 ## Usage 
